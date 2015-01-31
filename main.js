@@ -1,6 +1,87 @@
 var app = require('app');  // Module to control application life.
 var ipc = require('ipc');
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
+var Menu = require("menu");
+var dialog = require('dialog');
+var fs = require("fs");
+
+
+//menu
+var menuTemplate = [
+    {
+        label: "GM Editor",
+        submenu: [
+            {
+                label: "About Atom Shell"
+            },
+            {
+                label: "Hide All",
+                accelerator: 'Command+H',
+                selector: 'hide:'
+            },
+            {
+                label: 'Show All',
+                selector: 'unhideAllApplications:'
+            }
+        ]
+    },
+    {
+        label: "Edit",
+        submenu: [
+            {
+                label: "Save",
+                accelerator: 'Command+S',
+                click: function () {
+                    mainWindow.webContents.send("saveFileRequest");
+                }
+            },
+            {
+                label: 'Undo',
+                accelerator: 'Command+Z',
+                selector: 'undo:'
+            },
+            {
+                label: 'Redo',
+                accelerator: 'Shift+Command+Z',
+                selector: 'redo:'
+            },
+            {
+                type: 'separator'
+            },
+            {
+                label: 'Cut',
+                accelerator: 'Command+X',
+                selector: 'cut:'
+            },
+            {
+                label: 'Copy',
+                accelerator: 'Command+C',
+                selector: 'copy:'
+            },
+            {
+                label: 'Paste',
+                accelerator: 'Command+V',
+                selector: 'paste:'
+            },
+            {
+                label: 'Select All',
+                accelerator: 'Command+A',
+                selector: 'selectAll:'
+            }
+        ]
+    },
+    {
+        label: "Development",
+        submenu: [
+            {
+                label: 'Toggle DevTools',
+                accelerator: 'Alt+Command+I',
+                click: function() { BrowserWindow.getFocusedWindow().toggleDevTools(); }
+            }
+        ]
+    }
+];
+var menu = Menu.buildFromTemplate(menuTemplate);
 
 // Report crashes to our server.
 require('crash-reporter').start();
@@ -31,6 +112,8 @@ app.on('ready', function() {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
+
+    Menu.setApplicationMenu(menu); // Must be called within app.on('ready', function(){ ... });
 });
 
 
@@ -50,4 +133,29 @@ ipc.on("window", function (event, arg) {
     } else if (arg == "minus") {
         mainWindow.minimize();
     }
-})
+});
+
+ipc.on("saveFileResponse", function (e, arg) {
+    dialog.showSaveDialog(mainWindow, {
+        "title": "Save Markdown File",
+        "defaultPath": "~/Documents/untitled.md"
+    }, function (path) {
+        if (path) {
+            fs.writeFile(path, arg, {"flag": "w+"}, function (e) {
+                if (e) {
+                    console.error(e);
+                    return;
+                }
+                dialog.showMessageBox(mainWindow, {
+                    "title": "Congratulations",
+                    "message": "Save Completed!",
+                    "buttons": ["OK"]
+                })
+            });
+        }
+    })
+});
+
+
+
+

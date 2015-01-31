@@ -1,0 +1,6 @@
+*.iml
+.idea
+static/css
+static/javascript
+node_modules
+

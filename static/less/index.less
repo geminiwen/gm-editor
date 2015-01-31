@@ -1,0 +1,67 @@
+@charset "utf-8";
+
+@import "global/global";
+
+@content-padding: 30px;
+
+body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+i.fa {
+  font-size: 15px;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  &:hover {
+    color: green;
+  }
+  margin-left: 10px;
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+nav.nav-bar {
+  -webkit-app-region: drag;
+  padding: 5px 10px;
+}
+
+textarea {
+  resize: none;
+  outline: none;
+  &#markdown-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: @content-padding;
+    overflow: auto;
+  }
+}
+
+.editor-frame {
+  margin: 10px;
+  flex: 1 1 auto;
+  position: relative;
+}
+
+.editor-container {
+  width: 50%;
+  height: 100%;
+  position: absolute; // get the text area 100%
+  bottom: 0;
+  background: white;
+  border: 1px solid grey;
+}
+
+#preview {
+  padding: @content-padding;
+  position: absolute;
+  left: 50%;
+  height: 100%;
+  width: 50%;
+  top: 0;
+  border: 1px solid grey;
+  border-left: none;
+}

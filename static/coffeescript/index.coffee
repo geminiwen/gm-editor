@@ -22,8 +22,6 @@ $ () ->
                       .addClass mode
 
 
-
-
   ipc.on 'saveFileRequest', () ->
     content = $("#markdown-input").val()
     ipc.send 'saveFileResponse', content
@@ -36,7 +34,7 @@ $ () ->
   dragOver = () ->
     false
 
-  bodyDom = document.getElementsByTagName("body")[0];
+  bodyDom = $("body").get 0
   bodyDom.ondragover = bodyDom.ondragend = dragOver
 
   bodyDom.ondrop = (e) ->

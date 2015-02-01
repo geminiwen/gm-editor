@@ -72,11 +72,44 @@ nav.nav-bar {
 }
 /** end toolbar **/
 
+/** mode toggle **/
+.live-mode  {
+  .editor-container {
+    width: 50%;
+  }
+
+  #preview{
+    left: 50%;
+    width: 50%;
+  }
+}
+
+.edit-mode {
+  .editor-container {
+    width: 100%;
+    border-right: 1px solid grey;
+  }
+
+  #preview {
+    width: 0;
+    left: 100%;
+  }
+}
+
+.preview-mode {
+  #preview{
+    left: 0;
+    width: 100%;
+  }
+}
+
+/** end mode toggle **/
 
 /** start editor **/
 textarea {
   resize: none;
   outline: none;
+
   &#markdown-input {
     width: 100%;
     height: 100%;
@@ -99,15 +132,6 @@ textarea {
   overflow: hidden;
 }
 
-.live-mode .editor-container {
-  width: 50%;
-}
-
-.edit-mode .editor-container {
-  width: 100%;
-  border-right: 1px solid grey;
-}
-
 .editor-container {
   height: 100%;
   width: 50%;
@@ -122,22 +146,6 @@ textarea {
 
 
 /** start preview **/
-
-.live-mode #preview{
-  left: 50%;
-  width: 50%;
-}
-
-.preview-mode #preview{
-  left: 0;
-  width: 100%;
-}
-
-.edit-mode #preview {
-  width: 0;
-  left: 100%;
-}
-
 #preview {
   transition: all 0.3s ease;
   padding: @content-padding;
@@ -152,13 +160,16 @@ textarea {
     background: #eee;
     border-radius: 3px;
   }
+
   h1, h2, h3, h4, h5, h6 {
     padding-bottom: 0.3em;
     border-bottom: 2px solid #ddd;
   }
+
   blockquote {
     margin-left: 0;
   }
+
   table {
     td {
       border: 2px solid #eee;

@@ -11,12 +11,12 @@ $ () ->
     compiled = marked content
     $('#preview').html compiled
 
-  ipc.on 'saveFileRequest', (e, arg) ->
+  ipc.on 'saveFileRequest', () ->
     content = $("#markdown-input").val()
     ipc.send 'saveFileResponse', content
 
   renderFromFile = (content) ->
-    $('#markdown-input').text content
+    $('#markdown-input').val content
     compiled = marked content
     $('#preview').html compiled
 

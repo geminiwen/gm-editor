@@ -55,8 +55,11 @@ var menuTemplate = [
                                 }
                             ]
                         },
-                        function (filename) {
-                            var file = filename[0];
+                        function (files) {
+                            if (!files) {
+                                return;
+                            }
+                            var file = files[0];
                             fs.readFile(file, {"encoding": "utf-8"}, function (err, data) {
                                 if (err) {
                                     console.error(err);

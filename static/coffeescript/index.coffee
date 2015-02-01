@@ -11,6 +11,10 @@ $ () ->
     compiled = marked content
     $('#preview').html compiled
 
+  $('#markdown-input').keyup () ->
+    content = $(this).val()
+    localStorage.content = content
+
   $('.edit-mode').on "click", "a", () ->
     currentNode = $('.checked')
     oriMode = currentNode.data "mode"
@@ -26,7 +30,7 @@ $ () ->
     content = $("#markdown-input").val()
     ipc.send 'saveFileResponse', content
 
-  renderFromFile = (content) ->
+  renderFromContent = (content) ->
     $('#markdown-input').val content
     compiled = marked content
     $('#preview').html compiled
@@ -44,8 +48,11 @@ $ () ->
       if err
         console.error err
         return
-      renderFromFile data
+      renderFromContent data
 
   ipc.on "openFile", (data) ->
-    renderFromFile data
+    renderFromContent data
 
+  if localStorage.content
+    content = localStorage.content
+    renderFromContent content

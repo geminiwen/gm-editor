@@ -41,6 +41,11 @@ textarea {
     border: none;
     padding: @content-padding;
     overflow: auto;
+    transition: all 0.3s ease;
+    background: #eee;
+    &:focus {
+      background: white;
+    }
   }
 }
 
@@ -58,18 +63,29 @@ textarea {
   bottom: 0;
   background: white;
   border: 1px solid grey;
+  border-right: none;
+}
+
+.live-mode {
+  left: 50%;
+  width: 50%;
+}
+
+.preview-mode {
+  left: 0;
+  width: 100%;
+  z-index: 999;
 }
 
 #preview {
+  transition: all 0.3s ease;
   padding: @content-padding;
   position: absolute;
-  left: 50%;
   height: 100%;
-  width: 50%;
   top: 0;
   border: 1px solid grey;
-  border-left: none;
   overflow: scroll;
+  background: #f6f6f6;
 
   pre {
     background: #eee;
@@ -77,7 +93,10 @@ textarea {
   }
   h1, h2, h3, h4, h5, h6 {
     padding-bottom: 0.3em;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #ddd;
+  }
+  blockquote {
+    margin-left: 0;
   }
   table {
     td {

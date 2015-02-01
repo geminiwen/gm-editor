@@ -20,13 +20,17 @@
     <i class="fa fa-minus" id="minus"></i>
 </nav>
 <div class="toolbar">
-    <ul></ul>
+    <ul class="edit-mode">
+        <li><a class="edit-btn" data-mode="edit-mode"></a></li>
+        <li><a class="live-btn checked" data-mode="live-mode"></a></li>
+        <li><a class="preview-btn" data-mode="preview-mode"></a></li>
+    </ul>
 </div>
-<div class="editor-frame">
+<div class="editor-frame live-mode">
     <div class="editor-container">
         <textarea id="markdown-input" class="mono"></textarea>
     </div>
-    <div id="preview" class="live-mode mono pen">
+    <div id="preview" class="mono pen">
     </div>
 </div>
 <script type="text/javascript" src="static/javascript/dist/window-control.min.js"></script>

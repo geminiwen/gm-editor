@@ -11,6 +11,19 @@ $ () ->
     compiled = marked content
     $('#preview').html compiled
 
+  $('.edit-mode').on "click", "a", () ->
+    currentNode = $('.checked')
+    oriMode = currentNode.data "mode"
+    $('.checked').removeClass "checked"
+    $(this).addClass "checked"
+    mode = $(this).data "mode"
+
+    $('.editor-frame').removeClass oriMode
+                      .addClass mode
+
+
+
+
   ipc.on 'saveFileRequest', () ->
     content = $("#markdown-input").val()
     ipc.send 'saveFileResponse', content
@@ -36,6 +49,5 @@ $ () ->
       renderFromFile data
 
   ipc.on "openFile", (data) ->
-#    console.log data
     renderFromFile data
 

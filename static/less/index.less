@@ -14,6 +14,7 @@ body {
   }
 }
 
+/** nav **/
 i.fa {
   font-size: 15px;
   cursor: pointer;
@@ -31,7 +32,48 @@ nav.nav-bar {
   -webkit-app-region: drag;
   padding: 5px 10px;
 }
+/** end nav **/
 
+/** start toolbar **/
+.toolbar ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li a{
+    cursor: pointer;
+    line-height: 30px;
+    display: block;
+    border: 5px solid #f6f6f6;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    align-self: center;
+    background: url("../img/editor@2x.png");
+    background-size: 380px 60px;
+    &.edit-btn {
+      background-position: -320px 0px;
+    }
+    &.live-btn {
+      background-position: -340px 0px;
+    }
+    &.preview-btn {
+      background-position: -360px 0;
+    }
+    &:hover{
+      background-position-y: -40px;
+    }
+    &.checked {
+      background-position-y: -20px;
+    }
+  }
+
+
+}
+/** end toolbar **/
+
+
+/** start editor **/
 textarea {
   resize: none;
   outline: none;
@@ -54,27 +96,46 @@ textarea {
   padding: 0;
   flex: 1 1 auto;
   position: relative;
+  overflow: hidden;
+}
+
+.live-mode .editor-container {
+  width: 50%;
+}
+
+.edit-mode .editor-container {
+  width: 100%;
+  border-right: 1px solid grey;
 }
 
 .editor-container {
-  width: 50%;
   height: 100%;
+  width: 50%;
   position: absolute; // get the text area 100%
   bottom: 0;
   background: white;
   border: 1px solid grey;
   border-right: none;
+  transition: width 0.3s ease;
 }
+/** end editor **/
 
-.live-mode {
+
+/** start preview **/
+
+.live-mode #preview{
   left: 50%;
   width: 50%;
 }
 
-.preview-mode {
+.preview-mode #preview{
   left: 0;
   width: 100%;
-  z-index: 999;
+}
+
+.edit-mode #preview {
+  width: 0;
+  left: 100%;
 }
 
 #preview {
@@ -104,5 +165,6 @@ textarea {
       padding: 10px;
     }
   }
-
 }
+
+/** end preiview **/

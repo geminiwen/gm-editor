@@ -13,7 +13,10 @@ var menuTemplate = [
         label: "GM Editor",
         submenu: [
             {
-                label: "About Atom Shell"
+                label: "About GM Editor"
+            },
+            {
+                type: 'separator'
             },
             {
                 label: "Hide All",
@@ -23,6 +26,14 @@ var menuTemplate = [
             {
                 label: 'Show All',
                 selector: 'unhideAllApplications:'
+            },
+            {
+                type: 'separator'
+            },
+            {
+                label: 'Quit',
+                accelerator: 'Command+Q',
+                click: function() { app.quit(); }
             }
         ]
     },

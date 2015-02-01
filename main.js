@@ -4,6 +4,7 @@ var BrowserWindow = require('browser-window');  // Module to create native brows
 var Menu = require("menu");
 var dialog = require('dialog');
 var fs = require("fs");
+var path = require("path");
 
 
 //menu
@@ -16,7 +17,7 @@ var menuTemplate = [
             },
             {
                 label: "Hide All",
-                accelerator: 'Command+H',
+                accelerator: 'CommandOrControl+H',
                 selector: 'hide:'
             },
             {
@@ -26,23 +27,62 @@ var menuTemplate = [
         ]
     },
     {
-        label: "Edit",
+        label: "File",
         submenu: [
             {
                 label: "Save",
-                accelerator: 'Command+S',
+                accelerator: 'CommandOrControl+S',
                 click: function () {
                     mainWindow.webContents.send("saveFileRequest");
                 }
             },
             {
+                label: "Open..",
+                accelerator: 'CommandOrControl+O',
+                click: function () {
+                    var homeDirectory = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+                    var defaultPath =  path.join(homeDirectory, "Documents");
+                    dialog.showOpenDialog(
+                        mainWindow,
+                        {
+                            title: "Select File To Open",
+                            defaultPath: defaultPath,
+                            properties: ["openFile"],
+                            filters: [
+                                {
+                                    name: "Markdown file",
+                                    extensions: ["md", "markdown"]
+                                }
+                            ]
+                        },
+                        function (filename) {
+                            var file = filename[0];
+                            fs.readFile(file, {"encoding": "utf-8"}, function (err, data) {
+                                if (err) {
+                                    console.error(err);
+                                    return;
+                                }
+                                mainWindow.webContents.send("openFile", data);
+                            });
+                        }
+                    );
+                    mainWindow.webContents.send("saveFileRequest");
+                }
+            }
+        ]
+    },
+    {
+        label: "Edit",
+        submenu: [
+
+            {
                 label: 'Undo',
-                accelerator: 'Command+Z',
+                accelerator: 'CommandOrControl+Z',
                 selector: 'undo:'
             },
             {
                 label: 'Redo',
-                accelerator: 'Shift+Command+Z',
+                accelerator: 'Shift+CommandOrControl+Z',
                 selector: 'redo:'
             },
             {
@@ -50,22 +90,22 @@ var menuTemplate = [
             },
             {
                 label: 'Cut',
-                accelerator: 'Command+X',
+                accelerator: 'CommandOrControl+X',
                 selector: 'cut:'
             },
             {
                 label: 'Copy',
-                accelerator: 'Command+C',
+                accelerator: 'CommandOrControl+C',
                 selector: 'copy:'
             },
             {
                 label: 'Paste',
-                accelerator: 'Command+V',
+                accelerator: 'CommandOrControl+V',
                 selector: 'paste:'
             },
             {
                 label: 'Select All',
-                accelerator: 'Command+A',
+                accelerator: 'CommandOrControl+A',
                 selector: 'selectAll:'
             }
         ]
@@ -75,7 +115,7 @@ var menuTemplate = [
         submenu: [
             {
                 label: 'Toggle DevTools',
-                accelerator: 'Alt+Command+I',
+                accelerator: 'Alt+CommandOrControl+I',
                 click: function() { BrowserWindow.getFocusedWindow().toggleDevTools(); }
             }
         ]
@@ -136,12 +176,14 @@ ipc.on("window", function (event, arg) {
 });
 
 ipc.on("saveFileResponse", function (e, arg) {
+    var homeDirectory = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+    var defaultPath =  path.join(homeDirectory, "Documents", "untitled.md");
     dialog.showSaveDialog(mainWindow, {
         "title": "Save Markdown File",
-        "defaultPath": "~/Documents/untitled.md"
+        "defaultPath": defaultPath
     }, function (path) {
         if (path) {
-            fs.writeFile(path, arg, {"flag": "w+"}, function (e) {
+            fs.writeFile(path, arg, {"flag": "w+", "encoding": "utf-8"}, function (e) {
                 if (e) {
                     console.error(e);
                     return;

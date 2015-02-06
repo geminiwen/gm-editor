@@ -3,8 +3,20 @@ _ = require "underscore"
 ipc = require 'ipc'
 marked = require "marked"
 fs = require 'fs'
+hljs = require "highlight.js"
 
 $ () ->
+
+  languageOverrides = {
+    js: 'javascript',
+    html: 'xml'
+  }
+
+  marked.setOptions {
+    highlight: (code, lang) ->
+      lang = languageOverrides[lang] ? lang
+      if hljs.getLanguage(lang) then hljs.highlight(lang, code).value else code;
+  }
 
   $("#markdown-input").keyup () ->
     content = $(this).val()

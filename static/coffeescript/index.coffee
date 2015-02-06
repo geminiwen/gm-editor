@@ -4,6 +4,7 @@ ipc = require 'ipc'
 marked = require "marked"
 fs = require 'fs'
 hljs = require "highlight.js"
+CodeMirror = require "./assets/javascript/codemirror.min.js"
 
 $ () ->
 
@@ -17,6 +18,15 @@ $ () ->
       lang = languageOverrides[lang] ? lang
       if hljs.getLanguage(lang) then hljs.highlight(lang, code).value else code;
   }
+
+#  CodeMirror.fromTextArea $('#markdown-input').get(0), {
+#    "mode": "gfm",
+#    lineNumbers: true,
+#    matchBrackets: true,
+#    lineWrapping: true,
+#    theme: 'default',
+#
+#  };
 
   $("#markdown-input").keyup () ->
     content = $(this).val()

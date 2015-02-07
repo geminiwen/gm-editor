@@ -17,6 +17,13 @@ $ () ->
     highlight: (code, lang) ->
       lang = languageOverrides[lang] ? lang
       if hljs.getLanguage(lang) then hljs.highlight(lang, code).value else code;
+    gfm: true
+    tables: true
+    breaks: true
+    pedantic: false
+    sanitize: true
+    smartLists: true
+    smartypants: false
   }
 
 #  CodeMirror.fromTextArea $('#markdown-input').get(0), {

@@ -1,10 +1,10 @@
-$ = require "./assets/javascript/jquery-2.1.3.min.js"
+$ = require "./bower_components/jquery/dist/jquery.min.js"
 _ = require "underscore"
 ipc = require 'ipc'
 marked = require "marked"
 fs = require 'fs'
 hljs = require "highlight.js"
-CodeMirror = require "./assets/javascript/codemirror.min.js"
+CodeMirror = require "./bower_components/codemirror/lib/codemirror.js"
 
 $ () ->
 

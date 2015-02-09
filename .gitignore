@@ -3,4 +3,5 @@
 static/css
 static/javascript
 node_modules
+bower_components
 

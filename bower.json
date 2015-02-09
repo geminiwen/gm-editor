@@ -1,0 +1,25 @@
+{
+  "name": "gm-editor",
+  "version": "0.0.1",
+  "homepage": "https://github.com/coffeesherk/gm-editor",
+  "authors": [
+    "Shengzhang Wen <coffeesherk@gmail.com>"
+  ],
+  "description": "\"markdown editor\"",
+  "main": "index.html",
+  "keywords": [
+    "markdown"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "codemirror": "~4.12.0",
+    "jquery": "~2.1.3"
+  }
+}

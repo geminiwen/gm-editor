@@ -47,12 +47,12 @@ $ () ->
   # 截图
   capture = () ->
     previewDom = $('#preview-content').get(0)
-    window.html2canvas previewDom, {
-      onrendered: (canvas) ->
-        url = canvas.toDataURL()
-        url = url.replace "data:image/png;base64,", ""
-        ipc.send 'saveFileResponse', url
-    }
+    window.html2canvas previewDom
+          .then (canvas) ->
+            url = canvas.toDataURL()
+            url = url.replace "data:image/png;base64,", ""
+            ipc.send 'saveFileResponse', url
+
 
   ipc.on 'saveFileRequest', () ->
     content = $("#markdown-input").val()

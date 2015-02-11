@@ -189,7 +189,7 @@ ipc.on("window", function (event, arg) {
     }
 });
 
-ipc.on("saveFileResponse", function (e, arg) {
+ipc.on("saveFileResponse", function (e, content) {
     var homeDirectory = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
     var defaultPath =  path.join(homeDirectory, "Documents", "untitled.md");
     dialog.showSaveDialog(mainWindow, {
@@ -197,7 +197,8 @@ ipc.on("saveFileResponse", function (e, arg) {
         "defaultPath": defaultPath
     }, function (path) {
         if (path) {
-            fs.writeFile(path, arg, {"flag": "w+", "encoding": "utf-8"}, function (e) {
+            content = new Buffer(content);
+            fs.writeFile(path, content, {"flag": "w+", "encoding": "utf-8"}, function (e) {
                 if (e) {
                     console.error(e);
                     return;

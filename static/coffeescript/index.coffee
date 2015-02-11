@@ -29,7 +29,7 @@ $ () ->
   $("#markdown-input").keyup () ->
     content = $(this).val()
     compiled = marked content
-    $('#preview').html compiled
+    $('#preview-content').html compiled
 
   $('#markdown-input').keyup () ->
     content = $(this).val()
@@ -44,14 +44,14 @@ $ () ->
 
     $('.editor-frame').removeClass oriMode
                       .addClass mode
-
-
+  # 截图
   capture = () ->
-    previewDom = $('#preview').get(0)
+    previewDom = $('#preview-content').get(0)
     window.html2canvas previewDom, {
       onrendered: (canvas) ->
         url = canvas.toDataURL()
-        console.log url
+        url = url.replace "data:image/png;base64,", ""
+        ipc.send 'saveFileResponse', url
     }
 
   ipc.on 'saveFileRequest', () ->
@@ -61,7 +61,7 @@ $ () ->
   renderFromContent = (content) ->
     $('#markdown-input').val content
     compiled = marked content
-    $('#preview').html compiled
+    $('#preview-content').html compiled
 
 
   dragOver = () ->

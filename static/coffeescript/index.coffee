@@ -4,7 +4,7 @@ ipc = require 'ipc'
 marked = require "marked"
 fs = require 'fs'
 hljs = require "highlight.js"
-CodeMirror = require "./bower_components/codemirror/lib/codemirror.js"
+require "./bower_components/html2canvas/build/html2canvas.js"
 
 $ () ->
 
@@ -26,15 +26,6 @@ $ () ->
     smartypants: false
   }
 
-#  CodeMirror.fromTextArea $('#markdown-input').get(0), {
-#    "mode": "gfm",
-#    lineNumbers: true,
-#    matchBrackets: true,
-#    lineWrapping: true,
-#    theme: 'default',
-#
-#  };
-
   $("#markdown-input").keyup () ->
     content = $(this).val()
     compiled = marked content
@@ -55,6 +46,14 @@ $ () ->
                       .addClass mode
 
 
+  capture = () ->
+    previewDom = $('#preview').get(0)
+    window.html2canvas previewDom, {
+      onrendered: (canvas) ->
+        url = canvas.toDataURL()
+        console.log url
+    }
+
   ipc.on 'saveFileRequest', () ->
     content = $("#markdown-input").val()
     ipc.send 'saveFileResponse', content
@@ -63,6 +62,7 @@ $ () ->
     $('#markdown-input').val content
     compiled = marked content
     $('#preview').html compiled
+
 
   dragOver = () ->
     false
@@ -85,3 +85,4 @@ $ () ->
   if localStorage.content
     content = localStorage.content
     renderFromContent content
+

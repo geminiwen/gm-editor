@@ -44,7 +44,10 @@ gulp.task('less', function () {
         stream = stream.pipe(watch(source));
     }
     stream.pipe(less())
-        .pipe(gulp.dest(file.less.dist));
+          .on('error', function (e) {
+            console.error(e);
+          })
+          .pipe(gulp.dest(file.less.dist));
 
 });
 
@@ -59,7 +62,10 @@ gulp.task("coffee", function () {
         stream = stream.pipe(watch(source));
     }
 
-    stream = stream.pipe(coffee({bare: true}));
+    stream = stream.pipe(coffee({bare: true}))
+                   .on('error', function (e) {
+                        console.error(e);
+                   });
 
     if (!debug) {
         stream.pipe(uglify());

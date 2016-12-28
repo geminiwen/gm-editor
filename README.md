@@ -1,7 +1,7 @@
 # GM Editor
 
 一个非常简单的markdown编辑器。
-用于学习[Atom Shell](https://github.com/atom/atom-shell)
+用于学习[Electron](http://electron.atom.io/)
 
 ### How To Build
 ```bash

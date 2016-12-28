@@ -1,5 +1,5 @@
-$ = require "./assets/javascript/jquery-2.1.3.min.js"
-ipc = require 'ipc'
+$ = require "jquery"
+ipc = require('electron').ipcRenderer
 
 $ () ->
   $ "#close-window"

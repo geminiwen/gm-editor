@@ -1,10 +1,10 @@
-$ = require "./bower_components/jquery/dist/jquery.min.js"
+$ = require "jquery"
 _ = require "underscore"
-ipc = require 'ipc'
+ipc = require('electron').ipcRenderer
 marked = require "marked"
 fs = require 'fs'
 hljs = require "highlight.js"
-require "./bower_components/html2canvas/build/html2canvas.js"
+require "html2canvas"
 
 $ () ->
 

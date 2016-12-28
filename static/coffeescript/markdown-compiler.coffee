@@ -1,4 +1,4 @@
-$ = require "../../../assets/javascript/jquery-2.1.3.min.js"
+$ = require "jquery"
 keyMap =
   '96': '`'
   '62': '>'

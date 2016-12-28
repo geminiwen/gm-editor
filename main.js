@@ -1,8 +1,9 @@
-var app = require('app');  // Module to control application life.
-var ipc = require('ipc');
-var BrowserWindow = require('browser-window');  // Module to create native browser window.
-var Menu = require("menu");
-var dialog = require('dialog');
+var Electron = require("electron");
+var app = Electron.app;  // Module to control application life.
+var ipc = Electron.ipcMain;
+var BrowserWindow = Electron.BrowserWindow;  // Module to create native browser window.
+var Menu = Electron.Menu;
+var dialog = Electron.dialog;
 var fs = require("fs");
 var path = require("path");
 
@@ -138,7 +139,6 @@ var menuTemplate = [
 var menu = Menu.buildFromTemplate(menuTemplate);
 
 // Report crashes to our server.
-require('crash-reporter').start();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the javascript object is GCed.
@@ -157,7 +157,7 @@ app.on('ready', function() {
     mainWindow = new BrowserWindow({width: 1024, height: 768, "frame": false});
 
     // and load the index.html of the app.
-    mainWindow.loadUrl('file://' + __dirname + '/index.html');
+    mainWindow.loadURL('file://' + __dirname + '/index.html');
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {

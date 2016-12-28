@@ -36,18 +36,10 @@ var file = {
 
 gulp.task('less', function () {
     'use strict';
-
     var source = file.less.src;
-
-    var stream = gulp.src(source);
-    if (debug) {
-        stream = stream.pipe(watch(source));
-    }
-    stream.pipe(less())
-          .on('error', function (e) {
-            console.error(e);
-          })
-          .pipe(gulp.dest(file.less.dist));
+    gulp.src(source)
+        .pipe(less())
+        .pipe(gulp.dest(file.less.dist));
 
 });
 
@@ -57,23 +49,9 @@ gulp.task("coffee", function () {
     var dest = file.javascript.dist;
     var stream = gulp.src(source);
 
-    if (debug) {
-        //watch file
-        stream = stream.pipe(watch(source));
-    }
-
-    stream = stream.pipe(coffee({bare: true}))
-                   .on('error', function (e) {
-                        console.error(e);
-                   });
-
-    if (!debug) {
-        stream.pipe(uglify());
-    }
-    stream.pipe(rename({
-        suffix: '.min',
-        extname: ".js"
-    })).pipe(gulp.dest(dest));
+    stream.pipe(coffee({bare: true}))
+        .pipe(rename({suffix: '.min', extname: ".js"}))
+        .pipe(gulp.dest(dest));
 
 });
 
@@ -83,16 +61,10 @@ gulp.task('clean', function () {
         file.less.dist + '/*']);
 });
 
-gulp.task('removeProjectFiles', function () {
-    'use strict';
-    var files = ['.idea', '*.iml', '.git*', '*.lock*', 'log', '.sass-cache', '._*', '.DS_Store', 'log/*.log'];
-    del(files);
-});
-
 gulp.task('default', ['less', 'coffee']);
 gulp.task('debug', function () {
     debug = true;
     console.log("Entering Debug Mode and watching file change");
     gulp.start('default');
 });
-gulp.task('release', ['default', 'removeProjectFiles']);
+gulp.task('release', ['default']);

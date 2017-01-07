@@ -3,10 +3,8 @@ var app = Electron.app;  // Module to control application life.
 var ipc = Electron.ipcMain;
 var BrowserWindow = Electron.BrowserWindow;  // Module to create native browser window.
 var Menu = Electron.Menu;
-var dialog = Electron.dialog;
-var fs = require("fs");
-var path = require("path");
 
+var Markdown = require("./services/markdown");
 
 //menu
 var menuTemplate = [
@@ -150,24 +148,17 @@ app.on('window-all-closed', function() {
         app.quit();
 });
 
-// This method will be called when atom-shell has done everything
-// initialization and ready for creating browser windows.
 app.on('ready', function() {
-    // Create the browser window.
-    mainWindow = new BrowserWindow({width: 1024, height: 768, "frame": false});
+    mainWindow = new BrowserWindow({width: 1024, height: 768});
 
-    // and load the index.html of the app.
     mainWindow.loadURL('file://' + __dirname + '/index.html');
 
-    // Emitted when the window is closed.
     mainWindow.on('closed', function() {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
         mainWindow = null;
     });
 
     Menu.setApplicationMenu(menu); // Must be called within app.on('ready', function(){ ... });
+    Markdown(mainWindow);
 });
 
 
@@ -187,30 +178,6 @@ ipc.on("window", function (event, arg) {
     } else if (arg == "minus") {
         mainWindow.minimize();
     }
-});
-
-ipc.on("saveFileResponse", function (e, content) {
-    var homeDirectory = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
-    var defaultPath =  path.join(homeDirectory, "Documents", "untitled.md");
-    dialog.showSaveDialog(mainWindow, {
-        "title": "Save Markdown File",
-        "defaultPath": defaultPath
-    }, function (path) {
-        if (path) {
-            content = new Buffer(content);
-            fs.writeFile(path, content, {"flag": "w+", "encoding": "utf-8"}, function (e) {
-                if (e) {
-                    console.error(e);
-                    return;
-                }
-                dialog.showMessageBox(mainWindow, {
-                    "title": "Congratulations",
-                    "message": "Save Completed!",
-                    "buttons": ["OK"]
-                })
-            });
-        }
-    })
 });
 
 

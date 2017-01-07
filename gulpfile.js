@@ -2,6 +2,8 @@
  * Created by geminiwen on 14-10-14.
  */
 
+'use strict';
+
 var gulp = require("gulp");
 var uglify = require("gulp-uglify");
 var rename = require("gulp-rename");
@@ -10,6 +12,7 @@ var watch = require("gulp-watch");
 var del = require("del");
 var coffee = require("gulp-coffee");
 var sourcemaps = require('gulp-sourcemaps');
+var electron = require('electron-connect').server.create()
 
 var debug = false;
 
@@ -35,23 +38,17 @@ var file = {
 
 
 gulp.task('less', function () {
-    'use strict';
-    var source = file.less.src;
-    gulp.src(source)
+    return gulp.src(file.less.src)
         .pipe(less())
         .pipe(gulp.dest(file.less.dist));
 
 });
 
 gulp.task("coffee", function () {
-    'use strict';
-    var source = file.coffee.src;
-    var dest = file.javascript.dist;
-    var stream = gulp.src(source);
-
-    stream.pipe(coffee({bare: true}))
+    return gulp.src(file.coffee.src)
+        .pipe(coffee({bare: true}))
         .pipe(rename({suffix: '.min', extname: ".js"}))
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(file.javascript.dist));
 
 });
 
@@ -60,11 +57,12 @@ gulp.task('clean', function () {
     del([file.javascript.dist + '/*',
         file.less.dist + '/*']);
 });
+gulp.task('watch', ['less', 'coffee'], function () {
+    electron.start()
 
-gulp.task('default', ['less', 'coffee']);
-gulp.task('debug', function () {
-    debug = true;
-    console.log("Entering Debug Mode and watching file change");
-    gulp.start('default');
+    gulp.watch([file.coffee.src], ['coffee'], electron.reload);
+    gulp.watch([file.less.src], ['less'], electron.reload);
+
 });
+gulp.task('default', ['watch']);
 gulp.task('release', ['default']);

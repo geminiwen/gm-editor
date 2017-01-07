@@ -158,7 +158,7 @@ app.on('ready', function() {
     });
 
     Menu.setApplicationMenu(menu); // Must be called within app.on('ready', function(){ ... });
-    Markdown(mainWindow);
+    new Markdown(mainWindow);
 });
 
 

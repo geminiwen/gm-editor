@@ -5,7 +5,7 @@ const path = require("path");
 class Markdown {
     constructor(editor) {
         this.editor = editor;
-        prepare();
+        this.prepare();
     }
     
     prepare() {
@@ -13,7 +13,7 @@ class Markdown {
         ipcMain.on("saveFileResponse", function (e, content) {
             var homeDirectory = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
             var defaultPath =  path.join(homeDirectory, "Documents", "untitled.md");
-            dialog.showSaveDialog(mainWindow, {
+            dialog.showSaveDialog(editor, {
                 "title": "Save Markdown File",
                 "defaultPath": defaultPath
             }, function (path) {

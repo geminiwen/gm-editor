@@ -8,7 +8,6 @@ var gulp = require("gulp");
 var uglify = require("gulp-uglify");
 var rename = require("gulp-rename");
 var less = require("gulp-less");
-var watch = require("gulp-watch");
 var del = require("del");
 var coffee = require("gulp-coffee");
 var sourcemaps = require('gulp-sourcemaps');

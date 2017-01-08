@@ -1,19 +1,4 @@
-const Electron = require("electron");
-const app = Electron.app;  // Module to control application life.
-const ipc = Electron.ipcMain;
-const BrowserWindow = Electron.BrowserWindow;  // Module to create native browser window.
-const Menu = Electron.Menu;
-const Hexo = require("hexo");
-
-let Markdown = require("./services/markdown");
-let path = "/Users/geminiwen/Code/github/blog";
-
-let hexo = new Hexo(path, {});
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the javascript object is GCed.
-let mainWindow = null;
-
+let {Menu} = require("electron");
 //menu
 let menuTemplate = [
     {
@@ -141,57 +126,4 @@ let menuTemplate = [
         ]
     }
 ];
-let menu = Menu.buildFromTemplate(menuTemplate);
-
-
-// Quit when all windows are closed.
-app.on('window-all-closed', function() {
-    if (process.platform != 'darwin')
-        app.quit();
-});
-
-app.on('ready', function() {
-    mainWindow = new BrowserWindow({width: 1024, height: 768});
-
-    mainWindow.loadURL('file://' + __dirname + '/index.html');
-
-    mainWindow.on('closed', function() {
-        mainWindow = null;
-    });
-
-    Menu.setApplicationMenu(menu); // Must be called within app.on('ready', function(){ ... });
-    new Markdown(mainWindow, hexo);
-
-    var handleRedirect = (e, url) => {
-        if(url != mainWindow.webContents.getURL()) {
-            e.preventDefault()
-            require('electron').shell.openExternal(url)
-        }
-    }
-
-    mainWindow.webContents.on('will-navigate', handleRedirect)
-    mainWindow.webContents.on('new-window', handleRedirect)
-});
-
-
-app.on('window-all-closed', function() {
-    app.quit();
-});
-
-app.on("activate-with-no-open-windows", function () {
-    mainWindow.show();
-});
-
-ipc.on("window", function (event, arg) {
-    if (arg == "close") {
-        mainWindow.hide();
-    } else if (arg == "maxium") {
-        mainWindow.maximize();
-    } else if (arg == "minus") {
-        mainWindow.minimize();
-    }
-});
-
-
-
-
+var menu = Menu.buildFromTemplate(menuTemplate);

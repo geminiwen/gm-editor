@@ -27,12 +27,12 @@ $ () ->
 
     $("#markdown-input").keyup () ->
         content = $(this).val()
+        localStorage.content = content
         compiled = marked content
         $('#preview-content').html compiled
+        ipc.send 'renderContentRequest', content
 
-    $('#markdown-input').keyup () ->
-        content = $(this).val()
-        localStorage.content = content
+
 
     $('.edit-mode').on "click", "a", () ->
         currentNode = $('.checked')
@@ -50,12 +50,12 @@ $ () ->
         .then (canvas) ->
             url = canvas.toDataURL()
             url = url.replace "data:image/png;base64,", ""
-            ipc.send 'saveFileResponse', url
+            ipc.send 'saveFileResponse', undefined, url
 
 
     ipc.on 'saveFileRequest', () ->
         content = $("#markdown-input").val()
-        ipc.send 'saveFileResponse', content
+        ipc.send 'saveFileResponse', undefined, content
 
     renderFromContent = (content) ->
         $('#markdown-input').val content

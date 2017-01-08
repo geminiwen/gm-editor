@@ -62,6 +62,7 @@ gulp.task('watch', ['less', 'coffee'], function () {
 
     gulp.watch([file.coffee.src], ['coffee'], electron.reload);
     gulp.watch([file.less.src], ['less'], electron.reload);
+    gulp.watch('index.html', electron.reload);
 
 });
 gulp.task('default', ['watch']);

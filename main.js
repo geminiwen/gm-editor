@@ -159,6 +159,16 @@ app.on('ready', function() {
 
     Menu.setApplicationMenu(menu); // Must be called within app.on('ready', function(){ ... });
     new Markdown(mainWindow);
+
+    var handleRedirect = (e, url) => {
+        if(url != mainWindow.webContents.getURL()) {
+            e.preventDefault()
+            require('electron').shell.openExternal(url)
+        }
+    }
+
+    mainWindow.webContents.on('will-navigate', handleRedirect)
+    mainWindow.webContents.on('new-window', handleRedirect)
 });
 
 

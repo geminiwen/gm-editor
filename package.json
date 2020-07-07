@@ -21,7 +21,7 @@
     "url": "https://github.com/coffeesherk/gm-editor"
   },
   "dependencies": {
-    "electron": "^1.4.13",
+    "electron": "^9.1.0",
     "gulp": "^3.9.1",
     "highlight.js": "^8.9.1",
     "html2canvas": "^0.5.0-beta4",
